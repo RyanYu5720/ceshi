@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纽强宝妈守护人格测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #fdf6f6;
+            color: #555;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #e1707f;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .quiz-box {
+            display: none;
+        }
+
+        .quiz-box.active {
+            display: block;
+        }
+
+        .question {
+            font-size: 16px;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 14px 18px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .option:hover {
+            border-color: #e1707f;
+            background-color: #fef5f6;
+        }
+
+        .option.selected {
+            background-color: #e1707f;
+            color: white;
+            border-color: #e1707f;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #e1707f;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #d45c6d;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-img {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .result-title {
+            font-size: 22px;
+            color: #e1707f;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .result-type {
+            font-size: 18px;
+            background: #fef5f6;
+            color: #e1707f;
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+        }
+
+        .result-desc {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 15px;
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        .result-tag {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #777;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 4px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        .start-page {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .start-page h2 {
+            color: #e1707f;
+            margin-bottom: 20px;
+        }
+
+        .start-page p {
+            margin-bottom: 30px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>纽强宝妈守护人格测试</h1>
+            <p>测测你是哪一类守护型宝妈～</p>
+        </div>
+
+        <!-- 开始页 -->
+        <div class="start-page" id="start">
+            <h2>欢迎来到纽强宝妈测试</h2>
+            <p>根据你的带娃习惯，测出你的专属守护人格</p>
+            <button class="btn" onclick="startQuiz()">开始测试</button>
+        </div>
+
+        <!-- 题目1 -->
+        <div class="quiz-box" id="q1">
+            <div class="question">1. 宝宝皮肤有点轻微泛红，你会？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'C')">淡定护理，正常涂抹纽强</div>
+                <div class="option" onclick="select(this, 'W')">有点担心，仔细观察并加强护理</div>
+            </div>
+            <button class="btn" onclick="next(1)">下一题</button>
+        </div>
+
+        <!-- 题目2 -->
+        <div class="quiz-box" id="q2">
+            <div class="question">2. 给宝宝做护肤的节奏是？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'S')">快速高效，一分钟搞定</div>
+                <div class="option" onclick="select(this, 'R')">温柔慢涂，享受亲子时刻</div>
+            </div>
+            <button class="btn" onclick="next(2)">下一题</button>
+        </div>
+
+        <!-- 题目3 -->
+        <div class="quiz-box" id="q3">
+            <div class="question">3. 选择宝宝护肤品更看重？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'P')">安全有效、成分靠谱、实用</div>
+                <div class="option" onclick="select(this, 'F')">温和亲肤、使用感舒服、安心</div>
+            </div>
+            <button class="btn" onclick="next(3)">下一题</button>
+        </div>
+
+        <!-- 题目4 -->
+        <div class="quiz-box" id="q4">
+            <div class="question">4. 带娃之余你的状态是？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'H')">宅家陪伴，简单舒适</div>
+                <div class="option" onclick="select(this, 'L')">精致自己，热爱生活</div>
+            </div>
+            <button class="btn" onclick="next(4)">下一题</button>
+        </div>
+
+        <!-- 题目5 -->
+        <div class="quiz-box" id="q5">
+            <div class="question">5. 面对宝宝护肤，你更偏向？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'C')">佛系稳定，长期坚持就好</div>
+                <div class="option" onclick="select(this, 'W')">细心呵护，一点都不马虎</div>
+            </div>
+            <button class="btn" onclick="next(5)">下一题</button>
+        </div>
+
+        <!-- 题目6 -->
+        <div class="quiz-box" id="q6">
+            <div class="question">6. 日常带娃做事风格是？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'S')">麻利干脆，不拖泥带水</div>
+                <div class="option" onclick="select(this, 'R')">从容不迫，精致慢生活</div>
+            </div>
+            <button class="btn" onclick="next(6)">下一题</button>
+        </div>
+
+        <!-- 题目7 -->
+        <div class="quiz-box" id="q7">
+            <div class="question">7. 你买母婴用品更像？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'P')">实用派，只买对的不买贵的</div>
+                <div class="option" onclick="select(this, 'F')">感受派，舒服安心最重要</div>
+            </div>
+            <button class="btn" onclick="next(7)">下一题</button>
+        </div>
+
+        <!-- 题目8 -->
+        <div class="quiz-box" id="q8">
+            <div class="question">8. 你更认同哪句话？</div>
+            <div class="options">
+                <div class="option" onclick="select(this, 'H')">宝宝安心，我就安心</div>
+                <div class="option" onclick="select(this, 'L')">爱宝宝，也要好好爱自己</div>
+            </div>
+            <button class="btn" onclick="getResult()">查看结果</button>
+        </div>
+
+        <!-- 结果页 -->
+        <div class="result" id="result">
+            <img id="resultImage" class="result-img" src="" alt="">
+            <div class="result-title">你的专属人格：</div>
+            <div class="result-type" id="type"></div>
+            <div id="resultTags"></div>
+            <div class="result-desc" id="desc"></div>
+            <button class="btn" onclick="restart()">重新测试</button>
+        </div>
+
+        <div class="brand">纽强 · 专业守护宝宝娇嫩肌</div>
+    </div>
+
+    <script>
+        let answer = [];
+        let current = 0;
+
+        function startQuiz() {
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('q1').classList.add('active');
+        }
+
+        function select(el, val) {
+            const options = el.parentElement.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            answer[current] = val;
+        }
+
+        function next(num) {
+            if (!answer[num-1]) {
+                alert('请选择一个选项');
+                return;
+            }
+            current++;
+            document.querySelectorAll('.quiz-box').forEach(box => box.classList.remove('active'));
+            document.getElementById('q'+(num+1)).classList.add('active');
+        }
+
+        function getResult() {
+            const res = answer.join('');
+            document.querySelectorAll('.quiz-box').forEach(box => box.classList.remove('active'));
+            document.getElementById('result').classList.add('active');
+            showResult(res);
+        }
+
+        function restart() {
+            answer = [];
+            current = 0;
+            document.getElementById('result').classList.remove('active');
+            document.getElementById('start').style.display = 'block';
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        }
+
+        function showResult(type) {
+            const results = {
+                'CSPH': {
+                    name: '佛系省心妈',
+                    img: 'https://picsum.photos/id/237/300/300',
+                    tags: ['淡定派','粗养细心','不爱折腾'],
+                    desc: '你性格松弛，带娃不焦虑，护肤只认准安全靠谱的纽强，简单、安心、长效就是你的标准。宝宝健康快乐，就是你最大的心愿～'
+                },
+                'CSRH': {
+                    name: '温柔慢养妈',
+                    img: 'https://picsum.photos/id/342/300/300',
+                    tags: ['温柔耐心','情绪稳定','陪伴型'],
+                    desc: '你习惯慢节奏育儿，用心陪伴每一刻。给宝宝涂纽强时，温柔又认真，你相信慢养能给宝宝满满的安全感，纽强也一直守护宝宝娇嫩肌肤。'
+                },
+                'CSPL': {
+                    name: '松弛自我妈',
+                    img: 'https://picsum.photos/id/325/300/300',
+                    tags: ['爱娃也爱自己','不内耗','会生活'],
+                    desc: '你是人间清醒宝妈，爱宝宝更不会丢了自己。选择纽强是因为安心省事，让你有更多时间爱自己、爱生活，精致与松弛你都拥有。'
+                },
+                'CSRL': {
+                    name: '松弛精致妈',
+                    img: 'https://picsum.photos/id/318/300/300',
+                    tags: ['从容优雅','育儿不焦虑','有质感'],
+                    desc: '你把带娃和生活平衡得刚刚好，从容又优雅。给宝宝用纽强护肤，温和安心，你追求品质生活，也给宝宝最安心的日常守护。'
+                },
+                'CWPH': {
+                    name: '细心务实妈',
+                    img: 'https://picsum.photos/id/350/300/300',
+                    tags: ['操心但理智','做功课','不盲目'],
+                    desc: '你心思细腻，做事稳妥，是功课型宝妈。给宝宝选纽强，是因为你看重专业与安全，实用有效比什么都重要，你是宝宝最靠谱的守护神。'
+                },
+                'CWRH': {
+                    name: '温柔守护妈',
+                    img: 'https://picsum.photos/id/349/300/300',
+                    tags: ['细腻敏感','共情力强','玻璃心'],
+                    desc: '你特别能体会宝宝的感受，最怕宝宝干痒泛红。纽强是你的安心底气，温和修护、长效保湿，给宝宝肌肤满满的安全感。'
+                },
+                'CWPL': {
+                    name: '精致操心妈',
+                    img: 'https://picsum.photos/id/326/300/300',
+                    tags: ['爱娃也爱美','功课足','追求品质'],
+                    desc: '你对宝宝用心，对自己也不马虎。育儿精致两不误，纽强专业守护宝宝肌肤，让你既能安心带娃，也能保持美丽状态。'
+                },
+                'CWRL': {
+                    name: '细腻生活家',
+                    img: 'https://picsum.photosid/320/300/300',
+                    tags: ['注重细节','仪式感','温柔强大'],
+                    desc: '你热爱生活，注重每一个小细节。给宝宝护肤充满仪式感，纽强是你日常必备，安心、温和、有质感，完全符合你的生活标准。'
+                },
+                'WSPH': {
+                    name: '高效焦虑妈',
+                    img: 'https://picsum.photos/id/333/300/300',
+                    tags: ['急性子','执行力强','怕出错'],
+                    desc: '你做事干脆高效，带娃绝不拖延。宝宝护肤你坚持每天做好，纽强维稳修护效果在线，让你少操心、多安心。'
+                },
+                'WSRH': {
+                    name: '严谨温柔妈',
+                    img: 'https://picsum.photos/id/343/300/300',
+                    tags: ['严谨细致','温柔坚定','安全感满满'],
+                    desc: '你对宝宝肌肤护理非常严谨，温柔又坚定。纽强专业靠谱，温和不刺激，是你给宝宝最安心的选择。'
+                },
+                'WSPL': {
+                    name: '职场精致妈',
+                    img: 'https://picsum.photos/id/328/300/300',
+                    tags: ['职场带娃两不误','高效精致'],
+                    desc: '你身兼数职，时间宝贵，做事高效。纽强简单好用，快速完成护肤，让你在职场和妈妈身份中都保持精致。'
+                },
+                'WSRL': {
+                    name: '全能精致妈',
+                    img: 'https://picsum.photos/id/322/300/300',
+                    tags: ['全能型','追求完美','生活不将就'],
+                    desc: '你是别人眼中的全能妈妈，带娃、生活都追求完美。纽强作为专业护肤品牌，完美匹配你的高标准，安心又有效。'
+                },
+                'WWPH': {
+                    name: '谨慎功课妈',
+                    img: 'https://picsum.photos/id/351/300/300',
+                    tags: ['研究型','成分党','只信专业'],
+                    desc: '你是理性派宝妈，做足功课才放心。纽强专业安心、成分简单，完全符合你的严格要求，闭眼入都不会错。'
+                },
+                'WWRH': {
+                    name: '极致呵护妈',
+                    img: 'https://picsum.photos/id/348/300/300',
+                    tags: ['极度细心','呵护备至','安全感狂魔'],
+                    desc: '你把宝宝放在第一位，护肤呵护做到极致。纽强是宝宝肌肤的第一道防线，温和保湿、强韧屏障，给你满满的安心。'
+                },
+                'WWPL': {
+                    name: '精致成分妈',
+                    img: 'https://picsum.photos/id/329/300/300',
+                    tags: ['爱美懂安全','成分+颜值双在线'],
+                    desc: '你既看重成分安全，又追求生活质感。纽强专业守护宝宝肌肤，让你安心又省心，爱娃与爱美同时拥有。'
+                },
+                'WWRL': {
+                    name: '完美精致妈',
+                    img: 'https://picsum.photos/id/321/300/300',
+                    tags: ['追求完美','细节控','品质派'],
+                    desc: '你对生活和育儿都有高标准，不将就不妥协。纽强专业、安心、温和，完美契合你的精致追求，守护宝宝每一寸娇嫩肌肤。'
+                }
+            };
+
+            let finalType = type.slice(0,4);
+            if(!results[finalType]) finalType = 'CSPH';
+
+            document.getElementById('resultImage').src = results[finalType].img;
+            document.getElementById('type').innerText = finalType + ' · ' + results[finalType].name;
+            document.getElementById('desc').innerText = results[finalType].desc;
+
+            let tags = '';
+            results[finalType].tags.forEach(t => {
+                tags += '<span class="result-tag">'+t+'</span>';
+            });
+            document.getElementById('resultTags').innerHTML = tags;
+        }
+    </script>
+</body>
+</html>
